@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -30,7 +31,7 @@ namespace SalesManagement_Server_Sync
                 var _OrderLines = JsonConvert.DeserializeObject<List<OrderLineVO>>(_requestBody);
                 return _OrderLines.Count < 1
                 ? req.CreateResponse(HttpStatusCode.BadRequest, "Please pass skus in the request body")
-                : req.CreateResponse(HttpStatusCode.OK, "Hello order id is 1111");
+                : req.CreateResponse(HttpStatusCode.OK, $"Hello order id is {(DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000}");
             }
 
             
