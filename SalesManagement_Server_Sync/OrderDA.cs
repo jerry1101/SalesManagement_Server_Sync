@@ -11,8 +11,8 @@ namespace SalesManagement_Server_Sync
 {
     class OrderDA
     {
-        private const string _insertOrderCommandString = "insert into order (orderid,status,customerid,ModifiedDate) values (@orderid,@status,@customerid,@ModifiedDate)";
-        private const string _insertLinesCommandString = "insert into orderline (orderid,sku,qty,ModifiedDate) values (@orderid,@sku,@qty,@ModifiedDate) ";
+        private const string _insertOrderCommandString = "insert into dbo.Orders (orderid,orderstatus,customerid,ModifiedDate) values (@orderid,@status,@customerid,@ModifiedDate)";
+        private const string _insertLinesCommandString = "insert into dbo.OrderLines (orderid,sku,qty,ModifiedDate) values (@orderid,@sku,@qty,@ModifiedDate) ";
         public Tuple<string, string> CreateOrder(string connectionString, OrderVO order)
         {
             long OrderId;
