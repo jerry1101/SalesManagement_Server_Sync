@@ -25,10 +25,7 @@ namespace SalesManagement_Server_Sync
             var config = new ConfigurationBuilder().SetBasePath(context.FunctionAppDirectory)
                         .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
                         .Build();
-            
-            //var conn = new SqlConnection();
-            //conn.ConnectionString = config.GetConnectionString("SqlConnectionString");
-            //conn.Open();
+
             string _requestBody = await req.Content.ReadAsStringAsync();
 
 
@@ -39,13 +36,14 @@ namespace SalesManagement_Server_Sync
             }
             else
             {
-                //var _orderDA = new OrderDA();
-                //_orderDA.CreateOrder(config.GetConnectionString("SqlConnectionString"), JsonConvert.DeserializeObject<List<OrderLineVO>>(_requestBody));
+               
 
                 var order = JsonConvert.DeserializeObject<OrderVO>(_requestBody);
-                return order == null
-                ? req.CreateResponse(HttpStatusCode.BadRequest, "Please pass skus in the request body")
-                : req.CreateResponse(HttpStatusCode.OK, $"Hello order id is {(DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000}");
+                var _orderDA = new OrderDA();
+                var _result = _orderDA.CreateOrder(config.GetConnectionString("SqlConnectionString"), order);
+                return _result.Item1 == CRUDResultKey.Fail
+                ? req.CreateResponse(HttpStatusCode.BadRequest, _result.Item2)
+                : req.CreateResponse(HttpStatusCode.OK, _result.Item2);
             }
 
 
